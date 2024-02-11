@@ -1,12 +1,8 @@
-import core.NumberRanges;
-import instrument.InstrumentationAgent;
-import misc.PrimesSearchTest;
-import misc.StringOps;
+import proxy.CGLibProxyTest;
+import proxy.DynamicProxyTest;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Properties;
 import java.util.concurrent.LinkedTransferQueue;
 import java.util.concurrent.TransferQueue;
 
@@ -44,12 +40,11 @@ public class Main {
 
 //		PrimesSearchTest.test();
 
+		CGLibProxyTest.test();
 
-		String s = "ABC\uD835\uDD6b D";
-
-		System.out.println(s.offsetByCodePoints(0, 4));
-
-		if (true) return;
+		if (true) {
+			return;
+		}
 
 
 		long pid = ProcessHandle.current().pid();
