@@ -17,6 +17,7 @@ public class CountDownLatchTest {
 					throw new RuntimeException("", e);
 				}
 				latch.countDown();
+				System.out.println("Latch decremented");
 			}
 		});
 

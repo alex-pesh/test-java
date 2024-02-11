@@ -1,8 +1,8 @@
 package concurrency;
 
-public class SuspendDeadlock {
+public class DeadlockTest {
 
-	public static void test() {
+	public static void suspendLockTest() {
 
 		Object lock = new Object();
 
@@ -69,6 +69,46 @@ public class SuspendDeadlock {
 
 	}
 
+
+
+	public static void mutualLockTest() {
+
+		Object o1 = new Object();
+		Object o2 = new Object();
+
+		Runnable r = () -> {
+			String threadName = Thread.currentThread().getName();
+
+			while (true) {
+				System.out.println(System.nanoTime() + " - " + threadName + " is trying to take o1");
+				synchronized (o1) {
+					try {
+						System.out.println(System.nanoTime() + " - " + threadName + " has taken o1");
+						o1.wait(100L);
+						System.out.println(System.nanoTime() + " - " + threadName + " released o1");
+
+						System.out.println(System.nanoTime() + " - " + threadName + " is trying to take o2");
+						synchronized (o2) {
+							System.out.println(System.nanoTime() + " - " + threadName + " has taken o2");
+							o1.wait(100L);
+							System.out.println(System.nanoTime() + " - " + threadName + " released o1");
+						}
+						System.out.println(System.nanoTime() + " - " + threadName + " released o2");
+
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
+					}
+				}
+			}
+		};
+
+		Thread t1 = new Thread(r, "Thread_1");
+		Thread t2 = new Thread(r, "Thread_2");
+
+		t1.start();
+		t2.start();
+
+	}
 
 
 }
