@@ -1,8 +1,7 @@
-import concurrency.SuspendDeadlock;
-import core.GenericsTest;
 import natives.NativeTest;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Properties;
 import java.util.concurrent.LinkedTransferQueue;
 import java.util.concurrent.TransferQueue;
 
