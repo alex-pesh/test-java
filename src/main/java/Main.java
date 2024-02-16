@@ -1,8 +1,8 @@
-import proxy.CGLibProxyTest;
-import proxy.DynamicProxyTest;
+import concurrency.SuspendDeadlock;
+import core.GenericsTest;
+import natives.NativeTest;
 
-import java.util.Comparator;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.LinkedTransferQueue;
 import java.util.concurrent.TransferQueue;
 
@@ -23,13 +23,6 @@ public class Main {
 	}
 
 
-/*
-	private static void doList(List<? super B> list) {
-		list.add(new A(""));
-	}
-*/
-
-
 
 	public static void main(String[] args) throws Throwable {
 
@@ -40,11 +33,11 @@ public class Main {
 
 //		PrimesSearchTest.test();
 
-		CGLibProxyTest.test();
+		NativeTest.test();
 
-		if (true) {
-			return;
-		}
+//		GenericsTest.bridgeMethodTest();
+
+		if (true) return;
 
 
 		long pid = ProcessHandle.current().pid();
@@ -88,32 +81,6 @@ public class Main {
 	}
 
 
-	static class A {
 
-		private final String data;
-
-		A(String data) {
-			this.data = data;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			return obj instanceof A;
-		}
-	}
-
-	static class B extends A {
-
-		B(String data) {
-			super(data);
-		}
-	}
-
-	static class C extends B {
-
-		C(String data) {
-			super(data);
-		}
-	}
 
 }

@@ -1,4 +1,4 @@
-package misc;
+package core;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -20,6 +20,19 @@ public class StringOps {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+
+	public static void offsetByCodePoint() {
+		String s_1 = "ABC\uD835\uDD6b_D"; // offset с учетом размерности символа (2 байта)
+		int index_1 = s_1.offsetByCodePoints(0, 4);
+		System.out.println("String: " + s_1);
+		System.out.println("Index: " + index_1 + "; value at index: " + s_1.charAt(index_1) + System.lineSeparator());
+
+		String s_2 = "ABCz_D";
+		int index_2 = s_2.offsetByCodePoints(0, 4);
+		System.out.println("String: " + s_2);
+		System.out.println("Index: " + index_2 + "; value: at index: " + s_2.charAt(index_2));
 	}
 
 }

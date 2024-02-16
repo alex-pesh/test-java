@@ -13,8 +13,7 @@ public class DeadlockTest {
 					synchronized (lock) {
 						try {
 							System.out.println(Thread.currentThread().getName() + " lock");
-//							lock.wait(1000);
-							Thread.sleep(100);
+							Thread.sleep(200);
 							System.out.println(Thread.currentThread().getName() + " After wait");
 						} catch (InterruptedException e) {
 							throw new RuntimeException("", e);
@@ -33,15 +32,25 @@ public class DeadlockTest {
 		Thread t2 = new Thread(new Runnable() {
 			@Override
 			public void run() {
+
 				while (true) {
+
+					try {
+						Thread.sleep(100);
+						System.out.println(Thread.currentThread().getName() + " suspending " + t1.getName());
+						t1.suspend();
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
+					}
+
+					System.out.println(Thread.currentThread().getName() + " trying to lock");
 					synchronized (lock) {
 						try {
 							System.out.println(Thread.currentThread().getName() + " lock");
-//							lock.wait(1000);
 							Thread.sleep(100);
 							System.out.println(Thread.currentThread().getName() + " After wait");
 
-							t1.suspend();
+							t1.resume();
 
 						} catch (InterruptedException e) {
 							throw new RuntimeException("", e);
