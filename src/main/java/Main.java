@@ -1,6 +1,10 @@
+import algos.sorting.BracketsCheck;
 import natives.NativeTest;
+import org.w3c.dom.CharacterData;
 
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.LinkedTransferQueue;
 import java.util.concurrent.TransferQueue;
@@ -23,6 +27,8 @@ public class Main {
 
 
 
+
+
 	public static void main(String[] args) throws Throwable {
 
 //		NumberRanges.test();
@@ -32,7 +38,9 @@ public class Main {
 
 //		PrimesSearchTest.test();
 
-		NativeTest.test();
+
+		BracketsCheck.test();
+
 
 //		GenericsTest.bridgeMethodTest();
 
