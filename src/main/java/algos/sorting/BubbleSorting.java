@@ -2,6 +2,24 @@ package algos.sorting;
 
 public class BubbleSorting {
 
+	public static void main(String[] args) {
+
+		int length = 100_000;
+
+		int[] arr = new int[length];
+		for (int i = 0; i < length; i++)  {
+			arr[i] = (int) (Math.random() * 1000);
+		}
+
+		long start = System.nanoTime();
+		sort_1(arr);
+		long end = System.nanoTime();
+
+		System.out.println("Time taken (us): " + (end - start)/1000);
+
+	}
+
+
 	public static int sort_1(int[] array) {
 		boolean sorted = false;
 		int counter = 0;

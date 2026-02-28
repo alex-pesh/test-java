@@ -22,7 +22,8 @@ create index idx_p on test using gist (p);
 -- drop index idx_p;
 
 
-explain ANALYSE
+
+explain (ANALYSE, COSTS, BUFFERS, TIMING , VERBOSE )
 select * from test where id = 200000;
 
 

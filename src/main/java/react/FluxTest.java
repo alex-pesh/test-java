@@ -7,6 +7,9 @@ import java.time.Duration;
 
 public class FluxTest {
 
+	public static void main(String[] args) {
+		test_1();
+	}
 
 	public static void test_1() {
 

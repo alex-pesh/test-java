@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Примеры алгоритмов нахождения простых чисел
+ */
 public class PrimesSearchTest {
 
+	/**
+	 * Алготим "Решето Эратосфена"
+	 */
 	public static class EratosthenesSieve {
 
 		List<Integer> getPrimes(int max) {
@@ -36,7 +42,7 @@ public class PrimesSearchTest {
 	}
 
 
-	public static void test() {
+	public static void main() {
 		var primes = new EratosthenesSieve().getPrimes(1_000);
 
 		for (int prime : primes) {

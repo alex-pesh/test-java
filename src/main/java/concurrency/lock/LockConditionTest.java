@@ -1,10 +1,18 @@
 package concurrency.lock;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+@Slf4j
 public class LockConditionTest {
+
+	public static void main(String[] args) {
+		test();
+	}
+
 
 	public static void test() {
 
@@ -13,12 +21,14 @@ public class LockConditionTest {
 
 		Thread t1 = new Thread(() -> {
 			while (true) {
+				log.info(Thread.currentThread().getName() + " is waiting for lock");
 				lock.lock();
 				try {
-					System.out.println(Thread.currentThread().getName() + " taken the lock and awaiting");
+					log.info(Thread.currentThread().getName() + " taken the lock and doing something");
+					Thread.sleep(2000);
+					log.info(Thread.currentThread().getName() + " is done and waiting for signal");
 					condition.await();
-					System.out.println(Thread.currentThread().getName() + " woken");
-					Thread.sleep(1000);
+					log.info(Thread.currentThread().getName() + " woken");
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} finally {
@@ -29,11 +39,14 @@ public class LockConditionTest {
 
 		Thread t2 = new Thread(() -> {
 			while (true) {
+				log.info(Thread.currentThread().getName() + " is waiting for lock");
 				lock.lock();
 				try {
-					Thread.sleep(2000);
-					System.out.println(Thread.currentThread().getName() + " taken the lock and signaling");
+					log.info(Thread.currentThread().getName() + " taken the lock and signaling");
 					condition.signal();
+					log.info(Thread.currentThread().getName() + " has signaled and doing something");
+					Thread.sleep(2000);
+					log.info(Thread.currentThread().getName() + " is done");
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} finally {
@@ -44,7 +57,6 @@ public class LockConditionTest {
 
 		t1.start();
 		t2.start();
-
 	}
 
 }

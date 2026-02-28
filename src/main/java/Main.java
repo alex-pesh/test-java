@@ -1,15 +1,14 @@
-import algos.sorting.BracketsCheck;
-import natives.NativeTest;
-import org.w3c.dom.CharacterData;
+import sun.misc.Unsafe;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.LinkedTransferQueue;
-import java.util.concurrent.TransferQueue;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-public class Main {
+public class Main<T> {
 
 	interface I {
 		void print();
@@ -27,67 +26,65 @@ public class Main {
 
 
 
+	public static Unsafe getUnsafe() {
+		try {
+			return (Unsafe) getField(Unsafe.class, "theUnsafe").get(null);
+		} catch (IllegalAccessException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
 
-	public static void main(String[] args) throws Throwable {
-
-//		NumberRanges.test();
-
-//		List list = new ArrayList();
-//		doList(list);
-
-//		PrimesSearchTest.test();
+	public static Field getField(Class<?> cls, String name) {
+		Field f = findField(cls, name);
+		if (f != null) f.setAccessible(true);
+		return f;
+	}
 
 
-		BracketsCheck.test();
-
-
-//		GenericsTest.bridgeMethodTest();
-
-		if (true) return;
-
-
-		long pid = ProcessHandle.current().pid();
-		System.out.println("PID: " + pid);
-
-		final TransferQueue<String> queue = new LinkedTransferQueue<>();
-
-		Thread t1 = new Thread(() -> {
-			while (true) {
-				try {
-					Thread.sleep(1000);
-
-					String value = queue.take();
-					System.out.println(Thread.currentThread().getName() + " taken element: " + value);
-
-					Thread.sleep(100);
-
-					throw new RuntimeException("====");
-
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}, "Tread_1");
-
-		t1.setUncaughtExceptionHandler((thread, thr) -> {
-			thr.printStackTrace();
-		});
-		t1.start();
-
-		queue.transfer("a");
-
-
-		if (true) return;
-
-		Properties properties = System.getProperties();
-		properties.entrySet().stream()
-				.sorted(Comparator.comparing(o2 -> o2.getKey().toString()))
-				.forEach(entry-> System.out.println(entry.getKey() + " = " + entry.getValue()));
-
+	public static Field findField(Class<?> cls, String name) {
+		try {
+			return cls.getDeclaredField(name);
+		} catch (NoSuchFieldException e) {
+			return null;
+		}
 	}
 
 
 
+	private static final Pattern ESCAPE_PATTERN = Pattern.compile("(?U)(^'|'$)|(?!'$|$)(\\s+)|(\\s+|'$|$)|('$|$)");
+
+	public static String prepareTerm(String searchTerm) {
+		if (searchTerm == null || searchTerm.isBlank()) {
+			return "";
+		}
+
+		return ESCAPE_PATTERN.matcher(searchTerm).replaceAll(mr -> {
+			if (mr.group(1) != null) return "";
+			if (mr.group(2) != null) return ":*&";
+			if (mr.group(3) != null) return ":*";
+			return "";
+		});
+
+	}
+
+	static class Person {}
+	static class Employee extends Person {}
+	static  class Manager extends Employee {}
+
+
+	static int mod(int a, int b) {
+		return a - b*(a/b);
+	}
+
+
+	static void foo(List<? super Employee> list) {
+		list.add(new Manager());
+	}
+
+	public static void main(String[] args) throws Exception {
+
+
+	}
 
 }

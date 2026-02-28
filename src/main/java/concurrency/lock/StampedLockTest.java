@@ -1,8 +1,18 @@
 package concurrency.lock;
 
-import java.util.concurrent.locks.StampedLock;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.locks.StampedLock;
+import java.util.function.Consumer;
+
+
+@Slf4j
 public class StampedLockTest {
+
+	public static void main(String[] args) throws InterruptedException {
+		test();
+	}
+
 
 	public strictfp static void test() throws InterruptedException {
 
@@ -10,71 +20,79 @@ public class StampedLockTest {
 
 		Thread t1 = new Thread(() -> {
 			holder.set("Hello");
+//			holder.get();
 //			Object value = holder.getOptimistic();
-//			System.out.println("Value from thread " + Thread.currentThread().getName() + ": " + value);
+//			log.info("Value from thread " + Thread.currentThread().getName() + ": " + value);
 		}, "Thread_1");
 
 		t1.start();
 
-		Thread.sleep(100);
-
-//		holder.set("olleH");
-		Object value = holder.getOptimistic();
-		System.out.println("Value from thread" + Thread.currentThread().getName() + ": " + value);
+//		Object value = holder.getOptimistic(stamp -> {t1.start();});
+		Object value = holder.get();
+		log.info("Value from thread " + Thread.currentThread().getName() + ": " + value);
 	}
 
 
 	public static class Holder {
 		private StampedLock lock = new StampedLock();
-		private Object data;
+		private Object data = "DUMP_DATA";
 
-		public Object getOptimistic() {
+		public Object getOptimistic(Consumer<Long> consumer) {
+			log.info("Trying to acquire an Optimistic Read Lock by thread " + Thread.currentThread().getName());
 			long stamp = lock.tryOptimisticRead();
 			if (stamp == 0) {
-				System.out.println("Could not acquire optimistic lock in thread " + Thread.currentThread().getName());
+				log.info("Could not acquire Optimistic Read Lock in thread " + Thread.currentThread().getName());
 				return null;
 			}
 			try {
-				System.out.println("Getting value by thread " + Thread.currentThread().getName());
-				Thread.sleep(10000);
+				if (consumer != null) {
+					consumer.accept(stamp);
+				}
+				log.info("Acquired Optimistic Read Lock by thread " + Thread.currentThread().getName() + ": " + stamp);
+				Thread.sleep(1000);
+				boolean isValid = lock.validate(stamp);
+				log.info("Optimistic Read Lock is valid by thread " + Thread.currentThread().getName() + ": " + stamp + " = " + isValid);
+				Thread.sleep(2000);
 				return data;
 			} catch (InterruptedException e) {
 				throw new RuntimeException("", e);
 			} finally {
+				log.info("Releasing the Optimistic Read Lock by thread " + Thread.currentThread().getName() + ": " + stamp);
 				boolean unlock = lock.tryUnlockRead();
-				System.out.println("Lock is released by thread " + Thread.currentThread().getName() + ": " + unlock);
-
+				log.info("Optimistic Read Lock is released by thread " + Thread.currentThread().getName() + ": " + unlock);
 			}
 		}
 
 
 		public Object get() {
+			log.info("Trying to acquire a Read Lock by thread " + Thread.currentThread().getName());
 			long stamp = lock.readLock();
 			try {
 //				lock.readLock(); // Deadlock will happen in this case as StampedLock is not re-entrant
 
-				System.out.println("Getting value by thread " + Thread.currentThread().getName());
-				Thread.sleep(10000);
+				log.info("Acquired Read Lock by thread " + Thread.currentThread().getName() + ": " + stamp);
+				Thread.sleep(3000); // do something with dara
 				return data;
 			} catch (InterruptedException e) {
 				throw new RuntimeException("", e);
 			} finally {
-				System.out.println("Lock is  exclusively acquired: " + lock.validate(stamp));
+				log.info("Releasing the Read Lock by thread " + Thread.currentThread().getName() + ": " + stamp);
 				lock.unlockRead(stamp);
 			}
 		}
 
 
 		public void set(Object value) {
+			log.info("Trying to acquire a Write Lock by thread " + Thread.currentThread().getName());
 			long stamp = lock.writeLock();
 			try {
-				System.out.println("Setting value by thread " + Thread.currentThread().getName());
-				Thread.sleep(10000);
-
+				log.info("Acquired Write Lock by thread " + Thread.currentThread().getName() + ": " + stamp);
+				Thread.sleep(3000);
 				this.data = value;
 			} catch (InterruptedException e) {
 				throw new RuntimeException("", e);
 			} finally {
+				log.info("Releasing the Write Lock by thread " + Thread.currentThread().getName() + ": " + stamp);
 				lock.unlockWrite(stamp);
 			}
 		}

@@ -2,6 +2,12 @@ package misc;
 
 public class MatrixRotate {
 
+	public static void main(String[] args) {
+		test();
+	}
+
+
+
 	public static void test() {
 
 		int[][] matrix = generateMatrix();

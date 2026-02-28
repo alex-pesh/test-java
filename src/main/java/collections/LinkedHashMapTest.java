@@ -6,7 +6,7 @@ import java.util.Map;
 public class LinkedHashMapTest {
 
 
-	public static void test() {
+	public static void main() {
 
 		// Example with accessOrder and removing of eldest entries
 		Map<Integer, Object> map = new LinkedHashMap<>(16, .75f, true) {

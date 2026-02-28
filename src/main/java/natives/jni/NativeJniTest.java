@@ -1,6 +1,10 @@
-package natives;
+package natives.jni;
 
-public class NativeTest {
+public class NativeJniTest {
+
+	public static void main(String[] args) {
+		test();
+	}
 
 	/**
 	 * 	env var has to be exported:
@@ -8,7 +12,7 @@ public class NativeTest {
 	 */
 	public static void test() {
 		System.loadLibrary("natives");
-		String result = new NativeTest().nativeMethod(100, "Test Value");
+		String result = new NativeJniTest().nativeMethod(100, "Test Value");
 		System.out.println(result);
 	}
 

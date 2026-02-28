@@ -7,6 +7,7 @@ public class Payment {
 		switch (employee) {
 			case Salaried(var name, var payGrade) -> paySalary(payGrade);
 			case Freelancer(var name, var hourlyRate) when hourlyRate > 250 -> payInvoice(hourlyRate);
+			case null -> {}
 			default -> {}
 		}
 	}

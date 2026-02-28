@@ -1,6 +1,9 @@
 package patterns.bridge;
 
-public class ProgramTest {
+/**
+ * Пример паттерна Bridge. Создается отдельная иерархия типов Program и Developer
+ */
+public class BridgeTest {
 
 	public static void main(String[] args) {
 

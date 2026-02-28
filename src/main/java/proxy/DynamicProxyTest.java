@@ -10,6 +10,10 @@ import java.lang.reflect.Proxy;
 public class DynamicProxyTest {
 	private static final Logger logger = LoggerFactory.getLogger(DynamicProxyTest.class);
 
+	public static void main(String[] args) {
+		test();
+	}
+
 
 	public static void test() {
 

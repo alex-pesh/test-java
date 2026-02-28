@@ -2,6 +2,11 @@ package concurrency;
 
 public class DeadlockTest {
 
+	public static void main(String[] args) {
+		mutualLockTest();
+	}
+
+
 	public static void suspendLockTest() {
 
 		Object lock = new Object();
@@ -89,20 +94,20 @@ public class DeadlockTest {
 			String threadName = Thread.currentThread().getName();
 
 			while (true) {
-				System.out.println(System.nanoTime() + " - " + threadName + " is trying to take o1");
+				System.out.println((System.nanoTime()/1000000) + " - " + threadName + " is trying to take o1");
 				synchronized (o1) {
 					try {
-						System.out.println(System.nanoTime() + " - " + threadName + " has taken o1");
+						System.out.println((System.nanoTime()/1000000) + " - " + threadName + " has taken o1");
 						o1.wait(100L);
-						System.out.println(System.nanoTime() + " - " + threadName + " released o1");
+						System.out.println((System.nanoTime()/1000000) + " - " + threadName + " released o1");
 
-						System.out.println(System.nanoTime() + " - " + threadName + " is trying to take o2");
+						System.out.println((System.nanoTime()/1000000) + " - " + threadName + " is trying to take o2");
 						synchronized (o2) {
-							System.out.println(System.nanoTime() + " - " + threadName + " has taken o2");
+							System.out.println((System.nanoTime()/1000000) + " - " + threadName + " has taken o2");
 							o1.wait(100L);
-							System.out.println(System.nanoTime() + " - " + threadName + " released o1");
+							System.out.println((System.nanoTime()/1000000) + " - " + threadName + " released o1 again");
 						}
-						System.out.println(System.nanoTime() + " - " + threadName + " released o2");
+						System.out.println((System.nanoTime()/1000000) + " - " + threadName + " released o2");
 
 					} catch (InterruptedException e) {
 						throw new RuntimeException(e);

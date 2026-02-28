@@ -4,6 +4,11 @@ import java.util.concurrent.Exchanger;
 
 public class ExchangerTest {
 
+	public static void main(String[] args) {
+		test();
+	}
+
+
 	public static void test() {
 
 		Exchanger<String> stringExchanger = new Exchanger<>();
@@ -30,6 +35,9 @@ public class ExchangerTest {
 				}
 			}
 		});
+
+		t2.start();
+		t1.start();
 
 	}
 

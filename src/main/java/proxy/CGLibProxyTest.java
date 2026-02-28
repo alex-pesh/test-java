@@ -5,13 +5,20 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.text.Segment;
+
 public class CGLibProxyTest {
 	private static final Logger logger = LoggerFactory.getLogger(CGLibProxyTest.class);
+
+	public static void main(String[] args) {
+		test();
+	}
+
 
 	public static void test() {
 
 		Enhancer enhancer = new Enhancer();
-//		enhancer.setSuperclass(CharSequence.class);
+		enhancer.setSuperclass(Segment.class);
 		enhancer.setInterfaces(new Class[] {CharSequence.class});
 		enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
 
@@ -32,7 +39,7 @@ public class CGLibProxyTest {
 //		proxy.methodString("xxx");
 
 		CharSequence charSequence = (CharSequence) enhancer.create();
-		charSequence.charAt(5);
+		charSequence.isEmpty();
 	}
 
 
