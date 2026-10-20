@@ -8,21 +8,21 @@ public class MergeSort {
 
 		System.out.println("Merge Sorting");
 
-//		int length = 100_000_000;
-//		int[] arr = new int[length];
-//		for (int i = 0; i < length; i++)  {
-//			arr[i] = (int) (Math.random() * 1000000);
-//		}
+		int length = 1_000_000;
+		int[] arr = new int[length];
+		for (int i = 0; i < length; i++)  {
+			arr[i] = (int) (Math.random() * 1000000);
+		}
 
-		int[] arr = new int[] {2, 3, 5, 2, 3, 1, 0, 56, -3, 4};
-
-		printArray("Initial array: ", arr);
+//		int[] arr = new int[] {2, 3, 5, 2, 3, 1, 0, 56, -3, 4};
+//
+//		printArray("Initial array: ", arr);
 
 		long start = System.nanoTime();
 		sort(arr);
 		long end = System.nanoTime();
 
-		printArray("Sorted array: ", arr);
+//		printArray("Sorted array: ", arr);
 
 		System.out.println("Time taken (us): " + (end - start)/1000);
 	}
@@ -54,7 +54,7 @@ public class MergeSort {
 			return;
 		}
 
-		int middle = (low + high)/2;
+		int middle =  low + (high - low)/2;
 		mergeSort(arr, low, middle);
 		mergeSort(arr, middle + 1, high);
 
@@ -92,6 +92,19 @@ public class MergeSort {
 		while (j < rightLen) {
 			arr[k++] = right[j++];
 		}
+	}
+
+
+	private static int[] merge2(int[] a1, int[] a2) {
+
+		int i = 0, j = 0, k = 0;
+		int a3[] = new int[a1.length + a2.length];
+
+		while (i < a1.length && j < a2.length) {
+			a3[k++] = a1[i] < a2[j] ? a1[i++] : a2[j++];
+		}
+
+		return a3;
 	}
 
 }

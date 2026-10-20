@@ -1,8 +1,14 @@
 package algos.sorting;
 
 /**
- *Сортировка вставками
+ * <h4>Сортировка вставками.</h4>
+ *
  * https://www.youtube.com/watch?v=jywoZ2XaQoM
+ * <br>
+ * https://rutube.ru/video/6e760a6127816b63dd88ee093fea2c39/?t=312&r=plwd
+ * <br>
+ * По сравнению с сортировкой выбором, у сортировки вставками меньшее количество сравнений, но большее количество перестановок
+ *
  */
 public class InsertionSort {
 
@@ -54,7 +60,7 @@ public class InsertionSort {
 			int j = i;
 			while (j > 0 && arr[j - 1] > ai) {
 				arr[j] = arr[j - 1];
-				j--;
+				j--; // каждый раз во внутреннем цикле while возвращаемся назад и сравниваем все предыдущие элементы с текущим i-тым
 			}
 			arr[j] = ai;
 		}

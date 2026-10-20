@@ -8,6 +8,9 @@ public class CountDownLatchTest {
 		test_1();
 	}
 
+	/**
+	 * Главный поток ждет, пока оба потока завершат выполнение
+	 */
 	public static void test_1() {
 
 		CountDownLatch latch = new CountDownLatch(2);
@@ -29,6 +32,9 @@ public class CountDownLatchTest {
 	}
 
 
+	/**
+	 * Оба потока ждут, пока будет дан старт на выполнение главным потоком
+	 */
 	public static void test_2() {
 		CountDownLatch latch = new CountDownLatch(1);
 		Thread t1 = new Thread(new AwaitTask(latch), "Thread-1");

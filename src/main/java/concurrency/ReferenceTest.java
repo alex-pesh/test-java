@@ -6,11 +6,12 @@ import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ReferenceTest {
 
-	public static void main(String[] args) {
-		test();
+	public static void main(String[] args) throws InterruptedException {
+		test_2();
 	}
 
 
@@ -29,7 +30,7 @@ public class ReferenceTest {
 	}
 
 
-	public static void test() {
+	public static void test_1() {
 
 		ReferenceQueue<List<Integer>> queue = new ReferenceQueue<>();
 		Reference<List<Integer>> listRef_1, listRef_2;
@@ -91,6 +92,30 @@ public class ReferenceTest {
 
 //		System.gc();
 
+	}
+
+
+
+	public static void test_2() throws InterruptedException {
+
+		ReferenceQueue<Object> queue = new ReferenceQueue<>();
+
+		int[] ii = new int[]{};
+
+		Object obj = new Object();
+		Reference<Object> ref = new WeakReference<>(obj, queue);
+
+		obj = null;
+		System.gc();
+
+		TimeUnit.SECONDS.sleep(2);
+
+		Reference<?> removed = queue.poll();
+		if (removed != null) {
+			System.out.println("Ссылка была помещена в очередь.");
+		} else {
+			System.out.println("Ссылка не попала в очередь.");
+		}
 	}
 
 }

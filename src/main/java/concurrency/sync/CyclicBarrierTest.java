@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * @{code CyclicBarrier} используется в сценариях, когда нужно, чтобы {@code N} потоков ждали завершения выполнения друг друга.
+ * {@code CyclicBarrier} используется в сценариях, когда нужно, чтобы {@code N} потоков ждали завершения выполнения друг друга.
  * При вызове {@code await()} поток ждет:
  * <li> пока не будет вызван {@code await()} еще {@code N-1} раз
  * <li> или вызван {@code reset()} — в этом случае будет брошен {@code BrokenBarrierException}

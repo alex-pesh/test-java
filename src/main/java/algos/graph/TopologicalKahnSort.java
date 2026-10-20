@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 /**
  * https://en.wikipedia.org/wiki/Topological_sorting
  * https://dev.to/faangmaster/topologhichieskaia-sortirovka-4eee
+ * https://habr.com/ru/companies/otus/articles/499138/
  */
 public class TopologicalKahnSort {
 

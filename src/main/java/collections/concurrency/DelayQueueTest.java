@@ -19,9 +19,9 @@ public class DelayQueueTest {
 	public static void main(String[] args) throws InterruptedException {
 
 		DelayQueue<DelayedImpl> dq = new DelayQueue<>();
-		dq.add(new DelayedImpl("First", Duration.ofSeconds(3)));
-		dq.add(new DelayedImpl("Second", Duration.ofSeconds(2)));
-		dq.add(new DelayedImpl("Third", Duration.ofSeconds(1)));
+		dq.add(new DelayedImpl("First", Duration.ofSeconds(5)));
+		dq.add(new DelayedImpl("Second", Duration.ofSeconds(3)));
+		dq.add(new DelayedImpl("Third", Duration.ofSeconds(2)));
 
 		DelayedImpl di;
 		while(!dq.isEmpty()) {

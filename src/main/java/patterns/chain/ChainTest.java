@@ -28,13 +28,21 @@ public class ChainTest {
 			return handler;
 		}
 
+		protected boolean canHandle() {
+			return true;
+		}
+
 		@Override
 		public boolean handle(Object data) {
-			System.out.printf("Handling data '%s' by handler %s\n", data, this.getClass().getSimpleName());
+			if (canHandle()) {
+				System.out.printf("Handling data '%s' by handler %s\n", data, this.getClass().getSimpleName());
+				return true;
+			}
 			if (next != null) {
 				return next.handle(data);
 			}
-			return true;
+
+			return false;
 		}
 	}
 

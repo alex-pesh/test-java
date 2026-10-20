@@ -17,6 +17,8 @@
 #-Xlog:class+load=info
 #-verbose:gc
 
+
 #-XX:+PrintCompilation
+#-XX:+UnlockDiagnosticVMOptions
 #-XX:+PrintInlining
 

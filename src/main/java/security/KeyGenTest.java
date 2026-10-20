@@ -2,7 +2,6 @@ package security;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
 
 public class KeyGenTest {
 

@@ -2,12 +2,14 @@ package core;
 
 /**
  *  See also {@link core.sealed.Payment}
+ *
+ *  https://howtodoinjava.com/java/flow-control/switch-statement-in-java/
  */
 public class SwitchTest {
 
 	public static void main(String[] args) {
 //		typeSwitchTest("0.3");
-		unpackRecordTest();
+		switchGenericRecord();
 	}
 
 
@@ -57,13 +59,27 @@ public class SwitchTest {
 	record Box<T>(T content) {}
 
 	public static void switchGenericRecord() {
-		Box<?> bbs = new Box<>(null);
+		Box<Box<String>> bbs = new Box<>(null);
+
+		// На основе case-веток инфо компилятор сгенерирует bootstrap-метод CallSite для
+		// java.lang.runtime.SwitchBootstraps.typeSwitch() с аргументами Box, Box
+		// Этот метод содержит всю метаинформацию о паттернах: какие классы проверять,
+		// какие приведения делать, какие компоненты записей извлекать.
+		// Результат вызова InvokeDynamic #0:typeSwitch будет использоваться для tableswitch
 
 		switch (bbs) {
-			case Box(Box(String s))  -> System.out.println("Box(Box(String s))");
-			case Box(Box b)  -> System.out.println("Box(Box b)");
-			case Box b  -> System.out.println("Box b");
-			case null -> System.out.println("Null");
+			case Box(Box(String s))  -> {
+				System.out.println("Box(Box(String s))");
+			}
+			case Box(Box b)  -> {
+				System.out.println("Box(Box b)");
+			}
+			case Box b  -> {
+				System.out.println("Box b");
+			}
+			case null -> {
+				System.out.println("Null");
+			}
 		}
 	}
 
@@ -87,4 +103,24 @@ public class SwitchTest {
 	}
 
 
+
+	public static Boolean isWeekDay(Day day) {
+		Boolean result = switch(day) {
+			case MON, TUE, WED, THUR, FRI ->  {
+				System.out.println("It's Weekday");
+				yield true;
+			}
+			case SAT, SUN -> {
+				System.out.println("It's Weekend");
+				yield false;
+			}
+			default -> throw new IllegalArgumentException("Invalid day: " + day.name());
+		};
+		return result;
+	}
+
+
+	public static enum Day {
+		MON, TUE, WED, THUR, FRI, SAT, SUN
+	}
 }

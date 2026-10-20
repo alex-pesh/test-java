@@ -6,7 +6,7 @@ package algos.misc;
 public class Fibonacci {
 
 	public static void main(String[] args) {
-		System.out.println(fibTabulation(1000));
+		System.out.println(fibRecursion(1000));
 	}
 
 

@@ -1,20 +1,35 @@
 package algos.sorting;
 
+/**
+ * <h>Сортировка пузырьком</h>
+ * Будем просматривать весь массив "снизу вверх" и менять стоящие рядом элементы в там случае, если "нижний"
+ * элемент меньше, чем "верхний". Таким образом, мы вытолкнем наверх самый "легкий” элемент всего массива.
+ * Теперь повторим для оставшихся неотсортироваными N-1 элементов (т.е. для тех, которые лежат "ниже" первого)
+*/
 public class BubbleSorting {
 
 	public static void main(String[] args) {
 
 		int length = 100_000;
 
+/*
 		int[] arr = new int[length];
 		for (int i = 0; i < length; i++)  {
 			arr[i] = (int) (Math.random() * 1000);
 		}
+*/
+
+		int[] arr = new int[] {1,2,5,3};
 
 		long start = System.nanoTime();
-		sort_1(arr);
+		sort_2(arr);
 		long end = System.nanoTime();
 
+		for (int i = 0; i < arr.length; i++) {
+			System.out.printf("%d,", arr[i]);
+		}
+
+		System.out.println();
 		System.out.println("Time taken (us): " + (end - start)/1000);
 
 	}

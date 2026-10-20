@@ -29,17 +29,18 @@ public class ReadWriteLockTest {
 
 		Thread t1 = new Thread(() -> {
 //			holder.set("Hello");
-			Object value = holder.get();
+			Object value = holder.get(5000);
 			log.info("Value from thread " + Thread.currentThread().getName() + ": " + value);
 		}, "Thread_1");
+
 
 		t1.start();
 
 //		Thread.sleep(1000);
 //		holder.set("olleH");
 
-//		Object value = holder.get();
-//		log.info("Value from thread " + Thread.currentThread().getName() + ": " + value);
+		Object value = holder.get(0);
+		log.info("Value from thread " + Thread.currentThread().getName() + ": " + value);
 	}
 
 
@@ -47,11 +48,11 @@ public class ReadWriteLockTest {
 		private ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
 		private Object data;
 
-		public Object get() {
+		public Object get(long delay) {
 			rwLock.readLock().lock();
 			try {
 				log.info("Getting value by thread " + Thread.currentThread().getName());
-				Thread.sleep(5000);
+				Thread.sleep(delay);
 				return data;
 			} catch (InterruptedException e) {
 				throw new RuntimeException("", e);
